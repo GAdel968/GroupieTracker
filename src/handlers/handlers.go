@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/GAdel968/GroupieTracker/api"
-	"github.com/GAdel968/GroupieTracker/models"
+	"github.com/GAdel968/GroupieTracker/src/api"
+	"github.com/GAdel968/GroupieTracker/src/models"
 )
 
 var templates = template.Must(template.New("").Funcs(funcMap).ParseGlob("templates/*.html"))
