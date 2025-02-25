@@ -1,0 +1,46 @@
+{{ define "content" }}
+<div class="container artist-detail">
+    <div class="artist-header">
+        <div class="artist-image-large">
+            <img src="{{ .Artist.Image }}" alt="{{ .Artist.Name }}">
+        </div>
+        <div class="artist-info-detail">
+            <h2>{{ .Artist.Name }}</h2>
+            <div class="info-block">
+                <h3>Date de création</h3>
+                <p>{{ .Artist.CreationDate }}</p>
+            </div>
+            <div class="info-block">
+                <h3>Premier album</h3>
+                <p>{{ .Artist.FirstAlbum }}</p>
+            </div>
+            <div class="info-block">
+                <h3>Membres</h3>
+                <ul class="members-list">
+                    {{ range .Artist.Members }}
+                    <li>{{ . }}</li>
+                    {{ end }}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="concerts-section">
+        <h3>Concerts</h3>
+        <div class="concert-list">
+            {{ range $location, $dates := .Relation.DatesLocations }}
+            <div class="concert-item">
+                <h4>{{ $location }}</h4>
+                <div class="concert-dates">
+                    {{ range $dates }}
+                    <span class="date-tag">{{ . }}</span>
+                    {{ end }}
+                </div>
+            </div>
+            {{ else }}
+            <p>Aucune information de concert disponible.</p>
+            {{ end }}
+        </div>
+    </div>
+</div>
+{{ end }}

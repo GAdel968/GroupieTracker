@@ -1,0 +1,112 @@
+{{ define "content" }}
+<div class="container">
+    <section class="filters">
+        <h2>Filtres</h2>
+        <form id="filterForm" action="/filter" method="GET">
+            <div class="filter-group">
+                <h3>Date de création</h3>
+                <div class="range-filter">
+                    <label for="creationDateMin">De</label>
+                    <input type="number" id="creationDateMin" name="creationDateMin" min="1950" max="2024" value="{{ .Filters.creationDateMin }}">
+                    <label for="creationDateMax">à</label>
+                    <input type="number" id="creationDateMax" name="creationDateMax" min="1950" max="2024" value="{{ .Filters.creationDateMax }}">
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h3>Date du premier album</h3>
+                <div class="range-filter">
+                    <label for="firstAlbumMin">De</label>
+                    <input type="date" id="firstAlbumMin" name="firstAlbumMin" value="{{ .Filters.firstAlbumMin }}">
+                    <label for="firstAlbumMax">à</label>
+                    <input type="date" id="firstAlbumMax" name="firstAlbumMax" value="{{ .Filters.firstAlbumMax }}">
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h3>Nombre de membres</h3>
+                <div class="checkbox-filter">
+                    <label>
+                        <input type="checkbox" name="members" value="1" {{ if contains .Filters.members "1" }}checked{{ end }}>
+                        1 membre
+                    </label>
+                    <label>
+                        <input type="checkbox" name="members" value="2" {{ if contains .Filters.members "2" }}checked{{ end }}>
+                        2 membres
+                    </label>
+                    <label>
+                        <input type="checkbox" name="members" value="3" {{ if contains .Filters.members "3" }}checked{{ end }}>
+                        3 membres
+                    </label>
+                    <label>
+                        <input type="checkbox" name="members" value="4" {{ if contains .Filters.members "4" }}checked{{ end }}>
+                        4 membres
+                    </label>
+                    <label>
+                        <input type="checkbox" name="members" value="5" {{ if contains .Filters.members "5" }}checked{{ end }}>
+                        5 membres
+                    </label>
+                    <label>
+                        <input type="checkbox" name="members" value="6" {{ if contains .Filters.members "6" }}checked{{ end }}>
+                        6+ membres
+                    </label>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h3>Lieux de concert</h3>
+                <div class="checkbox-filter locations-filter">
+                    <label>
+                        <input type="checkbox" name="locations" value="usa" {{ if contains .Filters.locations "usa" }}checked{{ end }}>
+                        États-Unis
+                    </label>
+                    <label>
+                        <input type="checkbox" name="locations" value="uk" {{ if contains .Filters.locations "uk" }}checked{{ end }}>
+                        Royaume-Uni
+                    </label>
+                    <label>
+                        <input type="checkbox" name="locations" value="france" {{ if contains .Filters.locations "france" }}checked{{ end }}>
+                        France
+                    </label>
+                    <label>
+                        <input type="checkbox" name="locations" value="germany" {{ if contains .Filters.locations "germany" }}checked{{ end }}>
+                        Allemagne
+                    </label>
+                    <label>
+                        <input type="checkbox" name="locations" value="japan" {{ if contains .Filters.locations "japan" }}checked{{ end }}>
+                        Japon
+                    </label>
+                    <!-- Plus de lieux à ajouter dynamiquement avec JS -->
+                </div>
+            </div>
+
+            <div class="filter-buttons">
+                <button type="submit">Appliquer les filtres</button>
+                <button type="reset" id="resetFilters">Réinitialiser</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="artist-grid">
+        {{ range .Artists }}
+        <div class="artist-card">
+            <a href="/artist/{{ .ID }}">
+                <div class="artist-image">
+                    <img src="{{ .Image }}" alt="{{ .Name }}">
+                </div>
+                <div class="artist-info">
+                    <h3>{{ .Name }}</h3>
+                    <p>Création: {{ .CreationDate }}</p>
+                    <p>Premier Album: {{ .FirstAlbum }}</p>
+                    <p>{{ len .Members }} membres</p>
+                </div>
+            </a>
+        </div>
+        {{ else }}
+        <div class="no-results">
+            <p>Aucun artiste trouvé correspondant aux critères de recherche.</p>
+        </div>
+        {{ end }}
+    </section>
+</div>
+{{ end }}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Title }}</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">
+                <h1><a href="/">🎵 Groupie Tracker</a></h1>
+            </div>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Rechercher un artiste, membre, lieu..." autocomplete="off">
+                <div id="searchResults" class="search-results"></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        {{ template "content" . }}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Groupie Tracker - Tous droits réservés</p>
+    </footer>
+
+    <script src="/static/js/search.js"></script>
+    <script src="/static/js/filter.js"></script>
+    <script>
+        // Passer les données aux scripts JS
+        let artistsData = [];
+        {{ range .Artists }}
+        artistsData.push({
+            id: "{{ .ID }}",
+            name: "{{ .Name }}",
+            members: "{{ .Members }}",
+            creationDate: "{{ .CreationDate }}",
+            firstAlbum: "{{ .FirstAlbum }}"
+        });
+        {{ end }}
+    </script>
+</body>
+</html>
