@@ -6,7 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/GAdel968/GroupieTracker/models"
+	"github.com/GAdel968/GroupieTracker/src/models"
 )
 
 const (
