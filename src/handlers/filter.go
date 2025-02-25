@@ -5,8 +5,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/GAdel968/GroupieTracker/api"
-	"github.com/GAdel968/GroupieTracker/models"
+	"github.com/GAdel968/GroupieTracker/src/api"
+	"github.com/GAdel968/GroupieTracker/src/models"
 )
 
 // SearchResult représente un résultat de recherche avec son type
