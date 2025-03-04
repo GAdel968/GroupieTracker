@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-
 	"github.com/GAdel968/GroupieTracker/src/models"
 )
 
