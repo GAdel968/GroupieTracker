@@ -1,4 +1,10 @@
-{{ define "content" }}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+{{ GroupieTracker }}
 <div class="container">
     <section class="filters">
         <h2>Filtres</h2>
@@ -86,7 +92,6 @@
             </div>
         </form>
     </section>
-
     <section class="artist-grid">
         {{ range .Artists }}
         <div class="artist-card">
@@ -109,4 +114,4 @@
         {{ end }}
     </section>
 </div>
-{{ end }}
+</html>
