@@ -1,0 +1,142 @@
+{{ define "content" }}
+<div class="container search-results-page">
+    <h2>Résultats de recherche pour "{{ .Query }}"</h2>
+    
+    <div class="search-stats">
+        <p>{{ len .Artists }} résultat(s) trouvé(s)</p>
+    </div>
+
+    <section class="search-categories">
+        <div class="category-tabs">
+            <button class="tab-btn active" data-target="all">Tous</button>
+            <button class="tab-btn" data-target="artists">Artistes</button>
+            <button class="tab-btn" data-target="members">Membres</button>
+            <button class="tab-btn" data-target="locations">Lieux</button>
+        </div>
+
+        <div class="category-content" id="all">
+            <section class="artist-grid">
+                {{ range .Artists }}
+                <div class="artist-card">
+                    <a href="/artist/{{ .ID }}">
+                        <div class="artist-image">
+                            <img src="{{ .Image }}" alt="{{ .Name }}">
+                        </div>
+                        <div class="artist-info">
+                            <h3>{{ .Name }}</h3>
+                            <p>Création: {{ .CreationDate }}</p>
+                            <p>Premier Album: {{ .FirstAlbum }}</p>
+                            <p>{{ len .Members }} membres</p>
+                        </div>
+                    </a>
+                </div>
+                {{ else }}
+                <div class="no-results">
+                    <p>Aucun résultat trouvé pour "{{ .Query }}".</p>
+                    <p>Essayez d'autres termes de recherche ou <a href="/">retournez à la page d'accueil</a>.</p>
+                </div>
+                {{ end }}
+            </section>
+        </div>
+
+        <div class="category-content hidden" id="artists">
+            <section class="artist-grid">
+                {{ range .ArtistResults }}
+                <div class="artist-card">
+                    <a href="/artist/{{ .ID }}">
+                        <div class="artist-image">
+                            <img src="{{ .Image }}" alt="{{ .Name }}">
+                        </div>
+                        <div class="artist-info">
+                            <h3>{{ .Name }}</h3>
+                            <p>Création: {{ .CreationDate }}</p>
+                            <p>Premier Album: {{ .FirstAlbum }}</p>
+                            <p>{{ len .Members }} membres</p>
+                        </div>
+                    </a>
+                </div>
+                {{ else }}
+                <div class="no-results">
+                    <p>Aucun artiste trouvé pour "{{ .Query }}".</p>
+                </div>
+                {{ end }}
+            </section>
+        </div>
+
+        <div class="category-content hidden" id="members">
+            <div class="member-results">
+                {{ range .MemberResults }}
+                <div class="member-item">
+                    <a href="/artist/{{ .ArtistID }}">
+                        <div class="member-info">
+                            <div class="member-image">
+                                <img src="{{ .ArtistImage }}" alt="{{ .ArtistName }}">
+                            </div>
+                            <div class="member-details">
+                                <h4>{{ .Name }}</h4>
+                                <p>Membre de: {{ .ArtistName }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {{ else }}
+                <div class="no-results">
+                    <p>Aucun membre trouvé pour "{{ .Query }}".</p>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+
+        <div class="category-content hidden" id="locations">
+            <div class="location-results">
+                {{ range .LocationResults }}
+                <div class="location-item">
+                    <h4>{{ .Name }}</h4>
+                    <p>{{ len .Artists }} artiste(s) avec concerts prévus</p>
+                    <div class="location-artists">
+                        {{ range .Artists }}
+                        <a href="/artist/{{ .ID }}" class="location-artist-link">
+                            <div class="location-artist">
+                                <img src="{{ .Image }}" alt="{{ .Name }}">
+                                <span>{{ .Name }}</span>
+                            </div>
+                        </a>
+                        {{ end }}
+                    </div>
+                </div>
+                {{ else }}
+                <div class="no-results">
+                    <p>Aucun lieu trouvé pour "{{ .Query }}".</p>
+                </div>
+                {{ end }}
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    // Script pour la navigation par onglets
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const categoryContents = document.querySelectorAll('.category-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const target = this.getAttribute('data-target');
+                
+                // Masquer tous les contenus
+                categoryContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+                
+                // Afficher le contenu sélectionné
+                document.getElementById(target).classList.remove('hidden');
+                
+                // Mettre à jour les classes actives
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    });
+</script>
+{{ end }}
