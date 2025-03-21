@@ -1,0 +1,13 @@
+:root {
+    --couleur-primaire: #ff4d6d;
+    --couleur-secondaire: #6930c3;
+    --couleur-tertiaire: #80ffdb;
+    --couleur-fond: #ffffff;
+    --couleur-fond-secondaire: #f8f9fa;
+    --couleur-texte: #222831;
+    --couleur-texte-pale: #495057;
+    --couleur-bordure: #e0e0e0;
+    --transition-standard: all 0.3s ease;
+    --ombre-standard: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --radius-standard: 8px;
+}

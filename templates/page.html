@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groupie Tracker</title>
+    <link rel="icon" href="/static/img/others/concert.jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/page.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+          <a href="/"><img src="/static/img/icon/LOGO_YNOV.png" alt="LOGO_YNOV"></a>
+          <ul class="topnav">
+            <button id="btn">Filtres</button>
+          </ul>
+            <input class="Searchbar" list="listArtists" type="text" placeholder="Rechercher..." onchange="locations = this.value;">
+            <datalist id ="listArtists">
+              {{range $arti := .ArtistsData}}
+              <option value="/artists/{{$arti.ID}}">{{$arti.NAME}}</option>
+              {{end}}
+            </datalist>
+        </nav>
+      </header>
+
+    <main class="main-contenu">
+        <section class="section-intro">
+            <div class="conteneur">
+                <h1 class="page-titre">Projet Groupie Tracker</h1>
+                <p class="page-description">Projet Ynov B1 Informatique</p>
+            </div>
+        </section>
+
+        <section class="section-recherche">
+            <div class="conteneur">
+                <div class="boite-recherche">
+                    <div class="controles-recherche">
+                        <button id="btn-filtre" class="bouton-filtre">
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"></path>
+                            </svg>
+                            <span>Filtres</span>
+                        </button>
+                        <div class="champ-recherche" role="search">
+                            <label for="recherche" class="sr-only">Rechercher un artiste</label>
+                            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                            </svg>
+                            <input 
+                                type="text" 
+                                id="recherche" 
+                                class="recherche-input" 
+                                placeholder="Rechercher un artiste..." 
+                                aria-label="Rechercher un artiste"
+                            >
+                        </div>                    
+                    <div id="panneau-filtre" class="panneau-filtre">
+                        <h3>Affiner votre recherche</h3>
+                        <form id="form-filtre">
+                            <div class="groupe-filtre">
+                                <label for="date-creation">Année de creation</label>
+                                <div class="controle-filtre">
+                                    <input type="number" id="date-creation" name="date-creation" placeholder="Ex: 1990" class="filtre-input">
+                                </div>
+                            </div>
+                            
+                            <div class="groupe-filtre">
+                                <label for="premier-album">Premier album</label>
+                                <div class="controle-filtre">
+                                    <select id="premier-album" name="premier-album" class="filtre-select">
+                                        <option value="">Choisir une date</option>
+                                        {{range $arti := .ArtistesData}}
+                                        <option value="{{$arti.FIRST_ALBUM}}">{{$arti.FIRST_ALBUM}}</option>
+                                        {{end}}
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="groupe-filtre">
+                                <label for="membres">Nombre de membres</label>
+                                <div class="controle-filtre range-container">
+                                    <input type="range" id="membres" name="membres" min="1" max="8" value="1" class="filtre-range">
+                                    <output for="membres" id="membres-valeur">1</output>
+                                </div>
+                            </div>
+                            
+                            <div class="groupe-filtre">
+                                <label for="ville">Lieu de concert</label>
+                                <div class="controle-filtre">
+                                    <select id="ville" name="ville" class="filtre-select">
+                                        <option value="">Choisir une ville</option>
+                                        {{range $locations := .LocationsData}}
+                                        {{range $ville := $locations.LOCATIONS}}
+                                        <option value="{{.}}">{{.}}</option>
+                                        {{end}}
+                                        {{end}}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="actions-filtre">
+                                <button type="reset" class="bouton-secondaire">Réinitialiser</button>
+                                <button type="submit" class="bouton-primaire">Appliquer</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-catalogue">
+            <div class="conteneur">
+                <div class="artists-grid">
+                    {{range .artists}}
+                        <div class="artist-card">
+                            <img src="{{.IMAGE}}" alt="{{.NAME}}">
+                            <h2>{{.NAME}}</h2>
+                            <p>Created: {{.CREA_DATE}}</p>
+                            <p>First Album: {{.FIRST_ALBUM}}</p>
+                            <ul>
+                                {{range .MEMBERS}}
+                                    <li>{{.}}</li>
+                                {{end}}
+                            </ul>
+                            <a href="/artists/{{.ID}}" class="details-btn">View Details</a>
+                        </div>
+                    {{end}}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Comportement du bouton de filtre
+        document.getElementById('btn-filtre').addEventListener('click', function() {
+            const panneauFiltre = document.getElementById('panneau-filtre');
+            panneauFiltre.classList.toggle('actif');
+        });
+
+        // Mise à jour de la valeur du range
+        document.getElementById('membres').addEventListener('input', function() {
+            document.getElementById('membres-valeur').textContent = this.value;
+        });
+
+        // Navigation mobile
+        document.querySelector('.nav-mobile-bouton').addEventListener('click', function() {
+            document.querySelector('.navigation').classList.toggle('visible');
+            this.classList.toggle('actif');
+        });
+    </script>
+    <script src="/static/js/filter.js"></script>
+    <script src="/static/js/search.js"></script>
+</body>
+</html>
